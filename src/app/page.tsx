@@ -226,25 +226,28 @@ export default function Home() {
       {/* Lava Lamp Screen */}
       {appState === "lamp" && (
         <div
-          className="fixed inset-0 lava-lamp cursor-pointer"
+          className="fixed inset-0 cursor-pointer overflow-hidden"
+          style={{ background: "linear-gradient(180deg, #1a0a05 0%, #0d0502 100%)" }}
           onClick={goToPicker}
         >
           {/* Blobs */}
           {blobs.map((blob) => (
             <div
               key={blob.id}
-              className="blob"
               style={{
+                position: "absolute",
                 left: `${blob.x}%`,
                 top: `${blob.y}%`,
                 width: `${blob.size}px`,
                 height: `${blob.size * 1.2}px`,
                 backgroundColor: hslToString(blob.hue, blob.saturation, blob.lightness),
+                borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+                filter: "blur(12px)",
                 boxShadow: `0 0 ${blob.size / 2}px ${hslToString(blob.hue, blob.saturation, blob.lightness)}, 0 0 ${blob.size}px ${hslToString(blob.hue, blob.saturation, blob.lightness)}40`,
-                "--float-duration": `${blob.duration}s`,
-                "--delay": `${blob.delay}s`,
-              } as React.CSSProperties}
-            ></div>
+                animation: `blob-float ${blob.duration}s ease-in-out infinite, blob-wobble 8s ease-in-out infinite`,
+                animationDelay: `${blob.delay}s`,
+              }}
+            />
           ))}
 
           {/* Subtle instruction */}
