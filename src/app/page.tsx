@@ -34,10 +34,10 @@ function generateBlobs(baseHue: number, count: number = 12): Blob[] {
 
   return Array.from({ length: count }, (_, i) => ({
     id: i,
-    x: Math.random() * 80 + 10,
-    size: Math.random() * 120 + 60,
-    duration: Math.random() * 10 + 12,
-    delay: Math.random() * -15,
+    x: Math.random() * 70 + 15,
+    size: Math.random() * 100 + 80,
+    duration: Math.random() * 8 + 10,
+    delay: (i / count) * -10, // Stagger blobs evenly across the animation cycle
     hue: analogousHues[i % analogousHues.length],
     saturation: 70 + Math.random() * 20,
     lightness: 45 + Math.random() * 15,
@@ -60,8 +60,10 @@ export default function Home() {
     const x = e.clientX - rect.left - centerX;
     const y = e.clientY - rect.top - centerY;
 
-    const angle = Math.atan2(y, x);
-    const hue = ((angle * 180 / Math.PI) + 90 + 360) % 360;
+    // atan2 gives angle from positive x-axis, conic gradient starts from top (negative y)
+    // So we use atan2(x, -y) to get the angle from top, clockwise
+    const angle = Math.atan2(x, -y);
+    const hue = ((angle * 180 / Math.PI) + 360) % 360;
 
     setSelectedHue(hue);
   }, []);
@@ -193,8 +195,8 @@ export default function Home() {
             <div
               className="absolute w-4 h-4 bg-white rounded-full border-2 border-[#2d1b0e] pointer-events-none transform -translate-x-1/2 -translate-y-1/2"
               style={{
-                left: `${50 + 40 * Math.sin((selectedHue - 90) * Math.PI / 180)}%`,
-                top: `${50 + 40 * Math.cos((selectedHue - 90) * Math.PI / 180)}%`,
+                left: `${50 + 40 * Math.sin(selectedHue * Math.PI / 180)}%`,
+                top: `${50 - 40 * Math.cos(selectedHue * Math.PI / 180)}%`,
               }}
             ></div>
           </div>
