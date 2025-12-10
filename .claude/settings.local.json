@@ -9,7 +9,8 @@
       "Bash(GIT_SSH_COMMAND=\"ssh -i ~/.ssh/jstepanek -o IdentitiesOnly=yes\" git push:*)",
       "Bash(GIT_SSH_COMMAND=\"ssh -i ~/.ssh/id_ed25519_jstepanek_github -o IdentitiesOnly=yes\" git push:*)",
       "Bash(npx create-next-app@14:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(npx shadcn@latest init:*)"
     ],
     "deny": [],
     "ask": []
