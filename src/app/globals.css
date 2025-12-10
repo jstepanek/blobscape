@@ -3,25 +3,184 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #2d1b0e;
+  --foreground: #f5e6d3;
+  --retro-orange: #e85d04;
+  --retro-brown: #6b3e26;
+  --retro-gold: #d4a574;
+  --retro-cream: #f5e6d3;
+  --retro-avocado: #87714a;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-righteous), sans-serif;
+  overflow: hidden;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* Wood grain texture overlay */
+.wood-grain {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 90, 43, 0.1) 2px,
+      rgba(139, 90, 43, 0.1) 4px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 20px,
+      rgba(139, 90, 43, 0.05) 20px,
+      rgba(139, 90, 43, 0.05) 40px
+    ),
+    linear-gradient(135deg, #3d2314 0%, #2d1b0e 50%, #1a0f08 100%);
+}
+
+/* Shag carpet texture */
+.shag-carpet {
+  background:
+    radial-gradient(circle at 10% 20%, rgba(135, 113, 74, 0.3) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(212, 165, 116, 0.2) 0%, transparent 25%),
+    radial-gradient(circle at 50% 50%, rgba(107, 62, 38, 0.4) 0%, transparent 50%),
+    linear-gradient(180deg, #3d2817 0%, #2d1b0e 100%);
+}
+
+/* Groovy glow effect */
+.groovy-glow {
+  text-shadow:
+    0 0 10px var(--retro-orange),
+    0 0 20px var(--retro-orange),
+    0 0 30px var(--retro-gold);
+}
+
+/* Retro button style */
+.retro-button {
+  background: linear-gradient(180deg, var(--retro-orange) 0%, #c04d03 100%);
+  border: 3px solid var(--retro-gold);
+  border-radius: 50px;
+  box-shadow:
+    0 4px 0 var(--retro-brown),
+    0 0 20px rgba(232, 93, 4, 0.3);
+  transition: all 0.2s ease;
+}
+
+.retro-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 0 var(--retro-brown),
+    0 0 30px rgba(232, 93, 4, 0.5);
+}
+
+.retro-button:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 2px 0 var(--retro-brown),
+    0 0 15px rgba(232, 93, 4, 0.3);
+}
+
+/* Color wheel styling */
+.color-wheel {
+  background: conic-gradient(
+    from 0deg,
+    hsl(0, 80%, 50%),
+    hsl(30, 80%, 50%),
+    hsl(60, 80%, 50%),
+    hsl(90, 80%, 50%),
+    hsl(120, 80%, 50%),
+    hsl(150, 80%, 50%),
+    hsl(180, 80%, 50%),
+    hsl(210, 80%, 50%),
+    hsl(240, 80%, 50%),
+    hsl(270, 80%, 50%),
+    hsl(300, 80%, 50%),
+    hsl(330, 80%, 50%),
+    hsl(360, 80%, 50%)
+  );
+  border-radius: 50%;
+  cursor: crosshair;
+}
+
+/* Lava lamp container */
+.lava-lamp {
+  background: linear-gradient(180deg, #1a0a05 0%, #0d0502 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Blob keyframes */
+@keyframes blob-rise {
+  0%, 100% {
+    transform: translateY(100vh) scale(0.8);
+    opacity: 0;
   }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(30vh) scale(1.2);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20vh) scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes blob-wobble {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  50% {
+    border-radius: 50% 60% 30% 60% / 30% 40% 70% 60%;
+  }
+  75% {
+    border-radius: 60% 40% 60% 40% / 70% 30% 50% 60%;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: blur(20px) brightness(1);
+  }
+  50% {
+    filter: blur(25px) brightness(1.2);
+  }
+}
+
+.blob {
+  position: absolute;
+  animation:
+    blob-rise var(--rise-duration, 15s) ease-in-out infinite,
+    blob-wobble 8s ease-in-out infinite,
+    glow-pulse 4s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Fade transitions */
+.fade-enter {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
