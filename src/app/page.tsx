@@ -71,12 +71,10 @@ export default function Home() {
   }, []);
 
   const startLamp = useCallback(() => {
-    setIsTransitioning(true);
-    setBlobs(generateBlobs(selectedHue));
-    setTimeout(() => {
-      setAppState("lamp");
-      setIsTransitioning(false);
-    }, 500);
+    const newBlobs = generateBlobs(selectedHue);
+    console.log("Generated blobs:", newBlobs);
+    setBlobs(newBlobs);
+    setAppState("lamp");
   }, [selectedHue]);
 
   const goToPicker = useCallback(() => {
@@ -228,7 +226,7 @@ export default function Home() {
       {/* Lava Lamp Screen */}
       {appState === "lamp" && (
         <div
-          className={`fixed inset-0 lava-lamp cursor-pointer transition-opacity duration-500 ${isTransitioning ? "opacity-0" : "opacity-100"}`}
+          className="fixed inset-0 lava-lamp cursor-pointer"
           onClick={goToPicker}
         >
           {/* Blobs */}
