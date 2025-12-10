@@ -7,6 +7,7 @@ type AppState = "landing" | "picker" | "lamp";
 interface Blob {
   id: number;
   x: number;
+  y: number;
   size: number;
   duration: number;
   delay: number;
@@ -29,18 +30,19 @@ function generateAnalogousColors(baseHue: number): number[] {
   ];
 }
 
-function generateBlobs(baseHue: number, count: number = 12): Blob[] {
+function generateBlobs(baseHue: number, count: number = 15): Blob[] {
   const analogousHues = generateAnalogousColors(baseHue);
 
   return Array.from({ length: count }, (_, i) => ({
     id: i,
-    x: Math.random() * 70 + 15,
+    x: Math.random() * 80 + 10,
+    y: Math.random() * 70 + 20, // Spread across 20-90% of screen height
     size: Math.random() * 100 + 80,
-    duration: Math.random() * 8 + 10,
-    delay: (i / count) * -10, // Stagger blobs evenly across the animation cycle
+    duration: Math.random() * 6 + 8,
+    delay: Math.random() * -8, // Random delay for variety
     hue: analogousHues[i % analogousHues.length],
     saturation: 70 + Math.random() * 20,
-    lightness: 45 + Math.random() * 15,
+    lightness: 50 + Math.random() * 15,
   }));
 }
 
@@ -236,11 +238,12 @@ export default function Home() {
               className="blob"
               style={{
                 left: `${blob.x}%`,
+                top: `${blob.y}%`,
                 width: `${blob.size}px`,
                 height: `${blob.size * 1.2}px`,
                 backgroundColor: hslToString(blob.hue, blob.saturation, blob.lightness),
                 boxShadow: `0 0 ${blob.size / 2}px ${hslToString(blob.hue, blob.saturation, blob.lightness)}, 0 0 ${blob.size}px ${hslToString(blob.hue, blob.saturation, blob.lightness)}40`,
-                "--rise-duration": `${blob.duration}s`,
+                "--float-duration": `${blob.duration}s`,
                 "--delay": `${blob.delay}s`,
               } as React.CSSProperties}
             ></div>
