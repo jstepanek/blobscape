@@ -105,6 +105,23 @@ export default function Home() {
     }
   }, [appState]);
 
+  // Fullscreen toggle with spacebar
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Space" && appState === "lamp") {
+        e.preventDefault();
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else {
+          document.documentElement.requestFullscreen();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [appState]);
+
   return (
     <main className="min-h-screen w-full">
       {/* Landing Screen */}
@@ -251,8 +268,8 @@ export default function Home() {
           ))}
 
           {/* Subtle instruction */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-[#f5e6d3] opacity-30 text-sm pointer-events-none">
-            Click anywhere to change color
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-[#f5e6d3] opacity-30 text-sm pointer-events-none text-center">
+            Click to change color · Space for fullscreen
           </div>
 
           {/* Ambient glow overlay */}
